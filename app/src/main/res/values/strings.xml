@@ -1,0 +1,28 @@
+<resources>
+    <string name="app_name">TeachNet</string>
+    <string name="title_activity_login">LoginActivity</string>
+    <string name="prompt_email">Email</string>
+    <string name="prompt_password">Password</string>
+    <string name="action_sign_in">Sign in or register</string>
+    <string name="action_sign_in_short">Sign in</string>
+    <string name="welcome">"Welcome !"</string>
+    <string name="invalid_username">Not a valid username</string>
+    <string name="invalid_password">Password must be >5 characters</string>
+    <string name="login_failed">"Login failed"</string>
+    <string name="teachnet_by_bookies">TeachNet By Bookies</string>
+    <string name="rate_us">Rate Us</string>
+    <string name="report_bug">Report Bug</string>
+    <string name="about_app">About App</string>
+    <string name="share_app">Share App</string>
+    <string name="log_out">Log Out</string>
+    <string name="bookies_gmail_com">bookies1729@gmail.com</string>
+    <string name="close_nav">Close Nav Baer</string>
+    <string name="open_nav">Open Nav Bar</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="nav_fragment_report_bug">Please report any issue to our email:bookies1729@gmail.com\nWith detailed description of the issue\nThank you for downloading the app</string>
+    <string name="title_activity_post">PostActivity</string>
+    <string name="tab_text_1">Tab 1</string>
+    <string name="tab_text_2">Tab 2</string>
+    <string name="add">add</string>
+</resources>

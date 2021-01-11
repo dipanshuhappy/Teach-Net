@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "788480694725",
+    "project_id": "teach-77576",
+    "storage_bucket": "teach-77576.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:788480694725:android:0208a3c8846acd47c313ac",
+        "android_client_info": {
+          "package_name": "com.bookies.teachnet"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "788480694725-bu47316omgpme0lt0ic2c7lh11kmkegu.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.bookies.teachnet",
+            "certificate_hash": "ae97fdfaacf52f873aac01e5f7a502d427083d55"
+          }
+        },
+        {
+          "client_id": "788480694725-nr0rhk9it6tst18lnioq9084ljlkqhnc.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCgNbqNW7bsDqDAy_gNOUlHVDVQ0ui6e_g"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "788480694725-nr0rhk9it6tst18lnioq9084ljlkqhnc.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

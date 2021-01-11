@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <group>
+        <item
+            android:id="@+id/log_out"
+            android:icon="@drawable/ic_log_out"
+            android:title="@string/log_out"/>
+    </group>
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/rate_app"
+            android:icon="@drawable/ic_rate_app"
+            android:title="@string/rate_us" />
+        <item
+            android:id="@+id/share_app"
+            android:icon="@drawable/ic_share_app"
+            android:title="@string/share_app" />
+
+    </group>
+
+    <item android:title="@string/about_app">
+        <menu>
+            <item
+                android:id="@+id/bug"
+                android:icon="@drawable/ic_bug"
+                android:title="@string/report_bug" />
+
+        </menu>
+    </item>
+
+
+</menu>
