@@ -17,10 +17,12 @@ import androidx.appcompat.app.AppCompatActivity
 class CreatorAndInterpretorActivity : AppCompatActivity() {
     var layout:LinearLayout?=null
     var questionImage:Uri?=null
+    var creator:Creator?=null
     @RequiresApi(Build.VERSION_CODES.M)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_creator_and_interpretor)
+         creator= Creator(baseContext)
          layout=findViewById<LinearLayout>(R.id.dynamic_layout)
     }
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -50,7 +52,8 @@ val creator=Creator(baseContext)
                 }
                 R.id.image_question->{
                     getImage()
-                    Log.d("THE IMAGE RECEIVED IS",questionImage?.path.toString())
+
+
                 }
                 else->return true
             }
@@ -63,8 +66,12 @@ val creator=Creator(baseContext)
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        if(resultCode== RESULT_OK&&resultCode==100){
+        Log.d("this is the data", data.toString())
+        if(resultCode== RESULT_OK&&requestCode==100){
            questionImage=data?.data
+            val view:LinearLayout?= questionImage?.let { creator?.createImageQuestion(it) };
+            layout?.addView(view)
+
         }
         else{
             Toast.makeText(this,"No image selected",Toast.LENGTH_SHORT).show()

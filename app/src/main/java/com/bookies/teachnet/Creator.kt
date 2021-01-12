@@ -2,6 +2,7 @@ package com.bookies.teachnet
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.net.Uri
 import android.text.InputType
 import android.text.method.ScrollingMovementMethod
 import android.util.Log
@@ -73,6 +74,25 @@ class Creator(val context: Context)  {
         essayView.addView(answerEditText)
         return essayView
     }
+    fun createImageQuestion(imageQuesition: Uri):LinearLayout{
+        Creator.Utils.totalQuestion += 1
+        val imageQuestionView=LinearLayout(context);
+        val sideNoteEditText=EditText(context);
+        val answerEditText=EditText(context)
+        val imageView=ImageView(context);
+        val deleteButton=ImageButton(context)
+        setUpImageQuestion(imageView,imageQuesition)
+        setUpEditText(sideNoteEditText,2,Creator.Utils.totalQuestion)
+        setUpEditText(answerEditText,2,Creator.Utils.totalQuestion)
+        setUpDeleteButton(imageQuestionView,deleteButton,context)
+        setUpLinearLayout(imageQuestionView,LinearLayout.VERTICAL)
+        imageQuestionView.addView(deleteButton)
+        imageQuestionView.addView(imageView)
+        imageQuestionView.addView(sideNoteEditText)
+        imageQuestionView.addView(answerEditText)
+        return imageQuestionView
+
+    }
     companion object Utils:View.OnClickListener{
         var  totalQuestion=0;
         var layout:LinearLayout?=null;
@@ -117,6 +137,7 @@ class Creator(val context: Context)  {
             Log.d("in set button group params","${radioGroup}")
         }
         fun setUpLinearLayout(linearLayout: LinearLayout,orientation:Int){
+            linearLayout.removeAllViews()
             linearLayout.layoutParams=LinearLayout.LayoutParams(
                 LinearLayout.LayoutParams.MATCH_PARENT,LinearLayout.LayoutParams.WRAP_CONTENT
             )
@@ -132,6 +153,17 @@ class Creator(val context: Context)  {
             deleteButton.layoutParams=LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT,LinearLayout.LayoutParams.WRAP_CONTENT)
             view.addView(deleteButton)
             deleteButton.setOnClickListener(Creator.Utils)
+        }
+        fun setUpImageQuestion(imageView: ImageView,imageQuestion:Uri,height:Int=100){
+            imageView.layoutParams=
+                LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.MATCH_PARENT,
+                height
+                )
+            imageView.setImageURI(imageQuestion)
+            imageView.scaleType=ImageView.ScaleType.CENTER_INSIDE
+
+
         }
         override fun onClick(v: View?) {
             if (v != null) {
