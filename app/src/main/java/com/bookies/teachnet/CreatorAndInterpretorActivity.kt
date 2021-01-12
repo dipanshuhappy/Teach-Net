@@ -50,11 +50,21 @@ val creator=Creator(baseContext)
                     layout?.addView(view)
                     return true
                 }
-                R.id.image_question->{
+                R.id.image_question_multiple_choice->{
+                   typeOfQuestion="multipleChoice"
                     getImage()
-
-
+                    return true
                 }
+            R.id.image_question_essay->{
+                typeOfQuestion="essay"
+                getImage()
+                return true
+            }
+
+
+
+
+
                 else->return true
             }
         return true
@@ -69,13 +79,17 @@ val creator=Creator(baseContext)
         Log.d("this is the data", data.toString())
         if(resultCode== RESULT_OK&&requestCode==100){
            questionImage=data?.data
-            val view:LinearLayout?= questionImage?.let { creator?.createImageQuestion(it) };
+            val view:LinearLayout?= questionImage?.let { creator?.createImageQuestion(it,
+                typeOfQuestion) };
             layout?.addView(view)
 
         }
         else{
             Toast.makeText(this,"No image selected",Toast.LENGTH_SHORT).show()
         }
+    }
+    companion object Variable{
+        var typeOfQuestion:String="";
     }
 
 }

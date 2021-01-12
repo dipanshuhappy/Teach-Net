@@ -17,7 +17,16 @@
     <item android:id="@+id/essay"
         android:title="essay"/>
     <item android:id="@+id/image_question"
-        android:title="image question"/>
+        android:title="image question">
+        <menu>
+            <item
+                android:title="width multiple choice"
+                android:id="@+id/image_question_multiple_choice"/>
+            <item
+                android:title="width essay"
+                android:id="@+id/image_question_essay"/>
+        </menu>
+    </item>
 </menu>
     </item>
 

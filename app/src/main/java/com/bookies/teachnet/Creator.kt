@@ -19,23 +19,12 @@ class Creator(val context: Context)  {
         Creator.Utils.totalQuestion+= 1
         val multipleChoiceView=LinearLayout(context)
         val deleteButton=ImageButton(context)
-        val optionsArray= mutableListOf<MultipleOption>()
         val questionEditText=EditText(context)
         setUpLinearLayout(multipleChoiceView,LinearLayout.VERTICAL)
         setUpEditText(editText=questionEditText,lines=3,type = "question",totalQuestion = Creator.Utils.totalQuestion)
         setUpDeleteButton(multipleChoiceView,deleteButton,context)
         multipleChoiceView.addView(questionEditText)
-        for(i in 1..options){
-            val radioButton=RadioButton(context)
-            val editText=EditText(context)
-            val multipleOption=MultipleOption(radioButton,editText)
-            setUpRadioButton(radioButton )
-            setUpEditText(editText,2,Creator.Utils.totalQuestion)
-            optionsArray.add(multipleOption)
-            multipleChoiceView.addView(radioButton)
-            multipleChoiceView.addView(editText)
-            Log.d("IN THE OPTION LOOP","${optionsArray} is the array and ${radioButton} radio and ${editText}")
-        }
+        createOption(context,options,multipleChoiceView)
         return  multipleChoiceView
     }
     fun createTrueAndFalse():LinearLayout{
@@ -74,22 +63,30 @@ class Creator(val context: Context)  {
         essayView.addView(answerEditText)
         return essayView
     }
-    fun createImageQuestion(imageQuesition: Uri):LinearLayout{
+    fun createImageQuestion(imageQuesition: Uri,type:String):LinearLayout{
         Creator.Utils.totalQuestion += 1
         val imageQuestionView=LinearLayout(context);
         val sideNoteEditText=EditText(context);
-        val answerEditText=EditText(context)
+
         val imageView=ImageView(context);
         val deleteButton=ImageButton(context)
         setUpImageQuestion(imageView,imageQuesition)
-        setUpEditText(sideNoteEditText,2,Creator.Utils.totalQuestion)
-        setUpEditText(answerEditText,2,Creator.Utils.totalQuestion)
+        setUpEditText(editText = sideNoteEditText,lines = 3,totalQuestion = totalQuestion,type = "sideNote")
+
         setUpDeleteButton(imageQuestionView,deleteButton,context)
         setUpLinearLayout(imageQuestionView,LinearLayout.VERTICAL)
         imageQuestionView.addView(deleteButton)
         imageQuestionView.addView(imageView)
         imageQuestionView.addView(sideNoteEditText)
-        imageQuestionView.addView(answerEditText)
+        if(type=="multipleChoice"){
+            createOption(context,4,imageQuestionView)
+        }
+        else if(type=="essay"){
+            val answerEditText=EditText(context)
+            setUpEditText(answerEditText,2,Creator.Utils.totalQuestion)
+            imageQuestionView.addView(answerEditText)
+        }
+
         return imageQuestionView
 
     }
@@ -115,8 +112,12 @@ class Creator(val context: Context)  {
                 editText.setBackgroundResource(R.drawable.question_edit_text)
                 editText.hint="Question ${totalQuestion} "
             }
-            else{
+
+            else if(type=="answer"){
                 editText.hint="Answer of Question ${totalQuestion}"
+            }
+            else if(type=="sideNote"){
+                editText.hint="Put a side note (not required)"
             }
             editText.isVerticalScrollBarEnabled=true
         }
@@ -162,9 +163,19 @@ class Creator(val context: Context)  {
                 )
             imageView.setImageURI(imageQuestion)
             imageView.scaleType=ImageView.ScaleType.CENTER_INSIDE
-
-
         }
+        fun createOption(context: Context,options:Int,multipleChoiceView:LinearLayout) {
+            for(i in 1..options){
+                val radioButton=RadioButton(context)
+                val editText=EditText(context)
+                setUpRadioButton(radioButton )
+                setUpEditText(editText,2,Creator.Utils.totalQuestion)
+                multipleChoiceView.addView(radioButton)
+                multipleChoiceView.addView(editText)
+                Log.d("IN THE OPTION LOOP"," ${radioButton} radio and ${editText}")
+            }
+        }
+
         override fun onClick(v: View?) {
             if (v != null) {
                 Log.d("onclick button", "onClick is clicked inside the null check")
