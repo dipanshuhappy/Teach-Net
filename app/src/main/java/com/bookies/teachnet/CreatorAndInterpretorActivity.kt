@@ -36,18 +36,18 @@ val creator=Creator(baseContext)
         Creator.Utils.layout = layout
         when(item.itemId){
                 R.id.multiple_choice->{
-                    val view: LinearLayout?= creator?.createMultipleChoice(4)
-                    layout?.addView(view )
+                    val m: Creator.MultipleChoice= creator?.createMultipleChoice(4)
+                    layout?.addView(m.multipleChoiceView )
                     return true
                 }
                 R.id.true_or_false->{
-                    val view:LinearLayout?=creator?.createTrueAndFalse()
-                    layout?.addView(view)
+                    val m: Creator.TrueAndFalse= creator.createTrueAndFalse()
+                    layout?.addView(m.trueAndFalseView)
                     return true
                 }
                 R.id.essay->{
-                    val view:LinearLayout?=creator?.createEssay();
-                    layout?.addView(view)
+                    val m: Creator.Essay= creator.createEssay()
+                    layout?.addView(m.essayView)
                     return true
                 }
                 R.id.image_question_multiple_choice->{

@@ -5,7 +5,7 @@ interface Question{
     var question:String
     var id:String
 }
-class MultipleChoice(override var question: String, override var answer: String,
+class MultipleChoiceQuestion(override var question: String, override var answer: String,
                      override var id: String, var choices:MutableList<String>)
     :Question{
                 override var type: String="multipleChoice"
