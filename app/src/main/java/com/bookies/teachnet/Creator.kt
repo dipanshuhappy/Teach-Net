@@ -61,11 +61,17 @@ class Creator(val context: Context)  {
     fun createFillInTheBlank(){
     }
     fun createEssay():LinearLayout{
-        totalQuestion += 1
         val questionEditText=EditText(context)
         val answerEditText=EditText(context)
         val essayView=LinearLayout(context)
         val deleteButton=ImageButton(context)
+        totalQuestion += 1
+        val linearLayoutID="${totalQuestion}${essayQuestionType}".toInt()
+        val questionEditTextID="${linearLayoutID}${questionId}".toInt()
+        val answerEditTextID="${questionEditTextID}${essayAnswerType}".toInt()
+        essayView.id=linearLayoutID
+        questionEditText.id=questionEditTextID
+        answerEditText.id=answerEditTextID
         setUpEditText(editText=questionEditText,lines=3,type = "question",totalQuestion = Creator.Utils.totalQuestion)
         setUpEditText(answerEditText,2,Creator.Utils.totalQuestion)
         setUpLinearLayout(essayView,LinearLayout.VERTICAL)
@@ -75,12 +81,14 @@ class Creator(val context: Context)  {
         return essayView
     }
     fun createImageQuestion(imageQuesition: Uri,type:String):LinearLayout{
-        totalQuestion += 1
         val imageQuestionView=LinearLayout(context);
         val sideNoteEditText=EditText(context);
-
         val imageView=ImageView(context);
         val deleteButton=ImageButton(context)
+        totalQuestion += 1
+        val linearLayoutID="${totalQuestion}${essayQuestionType}".toInt()
+        val questionEditTextID="${linearLayoutID}${imageQuestionId}".toInt()
+        val answerEditTextID="${questionEditTextID}${essayAnswerType}".toInt()
         setUpImageQuestion(imageView,imageQuesition)
         setUpEditText(editText = sideNoteEditText,lines = 3,totalQuestion = totalQuestion,type = "sideNote")
 
@@ -90,7 +98,7 @@ class Creator(val context: Context)  {
         imageQuestionView.addView(imageView)
         imageQuestionView.addView(sideNoteEditText)
         if(type=="multipleChoice"){
-            createOption(context,4,imageQuestionView)
+            createOption(context,4,imageQuestionView,3)
         }
         else if(type=="essay"){
             val answerEditText=EditText(context)
@@ -112,6 +120,8 @@ class Creator(val context: Context)  {
         val questionId:Int=1
         val trueRadioButtonId:Int =7
         val falseRadioButtonId:Int=8
+        val essayAnswerType:Int=6
+        val imageQuestionId:Int=2
         fun setUpEditText(editText:EditText,lines:Int,totalQuestion:Int,inputType: Int=InputType.TYPE_TEXT_FLAG_MULTI_LINE,margin:Int=5,type:String="answer"){
              val optionsEditTextParams=LinearLayout.LayoutParams(
                 LinearLayout.LayoutParams.MATCH_PARENT,LinearLayout.LayoutParams.WRAP_CONTENT
