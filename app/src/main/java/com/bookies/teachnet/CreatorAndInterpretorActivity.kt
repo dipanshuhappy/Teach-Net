@@ -60,11 +60,6 @@ val creator=Creator(baseContext)
                 getImage()
                 return true
             }
-
-
-
-
-
                 else->return true
             }
         return true
@@ -91,5 +86,4 @@ val creator=Creator(baseContext)
     companion object Variable{
         var typeOfQuestion:String="";
     }
-
 }

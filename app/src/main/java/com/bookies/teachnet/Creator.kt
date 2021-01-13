@@ -13,14 +13,11 @@ import android.widget.*
 import androidx.core.content.ContextCompat
 
 class Creator(val context: Context)  {
-    val multipleChoiceQuestions = mutableMapOf<RadioGroup, MutableList<View>>()
-
-
     fun createMultipleChoice(options: Int = 4):LinearLayout{
         val multipleChoiceView=LinearLayout(context)
         val deleteButton=ImageButton(context)
         val questionEditText=EditText(context)
-        totalQuestion+= 1
+
         val linearLayoutID="${totalQuestion}${multipleChoiceQuestionType}".toInt()
         val questionEditTextID="${linearLayoutID}${questionId}".toInt()
         multipleChoiceView.id=linearLayoutID
@@ -213,14 +210,37 @@ class Creator(val context: Context)  {
                 Log.d("IN THE OPTION LOOP"," ${radioButton} radio and ${editText}")
             }
         }
-
         override fun onClick(v: View?) {
             if (v != null) {
                 Log.d("onclick button", "onClick is clicked inside the null check")
                 layout?.removeView(v.parent as View)
             }
         }
+    }
+    class MultipleChoice(val context: Context,val numOfChoices:Int=4){
+        var multipleChoiceView: LinearLayout = LinearLayout(context)
+        var questionEditText: EditText= EditText(context)
+        var deleteButton: ImageButton = ImageButton(context)
+        var questionEditTextID:Int=0;
+        init {
+            totalQuestion+= 1
+            val linearLayoutID="${totalQuestion}${multipleChoiceQuestionType}".toInt()
+            questionEditTextID="${linearLayoutID}${questionId}".toInt()
+            //set ID
+            multipleChoiceView.id=linearLayoutID
+            questionEditText.id=questionEditTextID
+        }
+        fun setUpQuestionViews(){
+            setUpLinearLayout(multipleChoiceView,LinearLayout.VERTICAL)
+            setUpEditText(editText=questionEditText,lines=3,type = "question",totalQuestion = Creator.Utils.totalQuestion)
+            setUpDeleteButton(multipleChoiceView,deleteButton,context)
+        }
+        fun addViewsToParentView(){
+            multipleChoiceView.addView(questionEditText)
+            createOption(context,numOfChoices,multipleChoiceView,questionEditTextID)
+        }
 
     }
+
 }
 
