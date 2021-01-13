@@ -18,10 +18,8 @@
         <activity
             android:name=".HomePage"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".SighUp" />
-        <activity
-            android:name=".ui.login.LoginActivity"
-            android:label="@string/title_activity_login" />
+
+
         <activity android:name=".SplashActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
