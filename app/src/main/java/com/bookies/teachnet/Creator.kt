@@ -15,26 +15,37 @@ import androidx.core.content.ContextCompat
 class Creator(val context: Context)  {
     val multipleChoiceQuestions = mutableMapOf<RadioGroup, MutableList<View>>()
 
+
     fun createMultipleChoice(options: Int = 4):LinearLayout{
-        Creator.Utils.totalQuestion+= 1
         val multipleChoiceView=LinearLayout(context)
         val deleteButton=ImageButton(context)
         val questionEditText=EditText(context)
+        totalQuestion+= 1
+        val linearLayoutID="${totalQuestion}${multipleChoiceQuestionType}".toInt()
+        val questionEditTextID="${linearLayoutID}${questionId}".toInt()
+        multipleChoiceView.id=linearLayoutID
+        questionEditText.id=questionEditTextID
         setUpLinearLayout(multipleChoiceView,LinearLayout.VERTICAL)
         setUpEditText(editText=questionEditText,lines=3,type = "question",totalQuestion = Creator.Utils.totalQuestion)
         setUpDeleteButton(multipleChoiceView,deleteButton,context)
         multipleChoiceView.addView(questionEditText)
-        createOption(context,options,multipleChoiceView)
+        createOption(context,options,multipleChoiceView,questionEditTextID)
         return  multipleChoiceView
     }
     fun createTrueAndFalse():LinearLayout{
-        Creator.Utils.totalQuestion += 1
         val trueAndFalseView=LinearLayout(context)
         val questionEditText=EditText(context);
         val deleteButton=ImageButton(context)
         val trueRadioButton=RadioButton(context)
         val falseRadioButton=RadioButton(context);
         val trueAndFalseRadioGroup=RadioGroup(context)
+        totalQuestion += 1
+        val linearLayoutID="${totalQuestion}${trueAndFalseQuestionType}".toInt()
+        val questionEditTextID="${linearLayoutID}${questionId}".toInt()
+        trueAndFalseView.id=linearLayoutID
+        questionEditText.id=questionEditTextID
+        trueRadioButton.id="${questionEditTextID}${trueRadioButtonId}".toInt()
+        falseRadioButton.id="${questionEditTextID}${falseRadioButtonId}".toInt()
         setUpEditText(editText=questionEditText,lines=3,type = "question",totalQuestion = Creator.Utils.totalQuestion)
         setUpRadioButton(trueRadioButton,"True")
         setUpRadioButton(falseRadioButton,"False")
@@ -50,7 +61,7 @@ class Creator(val context: Context)  {
     fun createFillInTheBlank(){
     }
     fun createEssay():LinearLayout{
-        Creator.Utils.totalQuestion += 1
+        totalQuestion += 1
         val questionEditText=EditText(context)
         val answerEditText=EditText(context)
         val essayView=LinearLayout(context)
@@ -64,7 +75,7 @@ class Creator(val context: Context)  {
         return essayView
     }
     fun createImageQuestion(imageQuesition: Uri,type:String):LinearLayout{
-        Creator.Utils.totalQuestion += 1
+        totalQuestion += 1
         val imageQuestionView=LinearLayout(context);
         val sideNoteEditText=EditText(context);
 
@@ -93,6 +104,14 @@ class Creator(val context: Context)  {
     companion object Utils:View.OnClickListener{
         var  totalQuestion=0;
         var layout:LinearLayout?=null;
+        val multipleChoiceQuestionType:Int=1
+        val trueAndFalseQuestionType:Int=2
+        val essayQuestionType:Int=3
+        val imageQuestionMultipleChoiceTypeQuestion: Int=4
+        val imageQuestionEssayTypeQuestion: Int=5
+        val questionId:Int=1
+        val trueRadioButtonId:Int =7
+        val falseRadioButtonId:Int=8
         fun setUpEditText(editText:EditText,lines:Int,totalQuestion:Int,inputType: Int=InputType.TYPE_TEXT_FLAG_MULTI_LINE,margin:Int=5,type:String="answer"){
              val optionsEditTextParams=LinearLayout.LayoutParams(
                 LinearLayout.LayoutParams.MATCH_PARENT,LinearLayout.LayoutParams.WRAP_CONTENT
@@ -139,6 +158,8 @@ class Creator(val context: Context)  {
         }
         fun setUpLinearLayout(linearLayout: LinearLayout,orientation:Int){
             linearLayout.removeAllViews()
+
+            Log.d("The LinearLayout id is",linearLayout.id.toString())
             linearLayout.layoutParams=LinearLayout.LayoutParams(
                 LinearLayout.LayoutParams.MATCH_PARENT,LinearLayout.LayoutParams.WRAP_CONTENT
             )
@@ -164,11 +185,14 @@ class Creator(val context: Context)  {
             imageView.setImageURI(imageQuestion)
             imageView.scaleType=ImageView.ScaleType.CENTER_INSIDE
         }
-        fun createOption(context: Context,options:Int,multipleChoiceView:LinearLayout) {
+        fun createOption(context: Context,options:Int,multipleChoiceView:LinearLayout,Id: Int) {
             for(i in 1..options){
+               val editTextID="${Id}${i}".toInt()
                 val radioButton=RadioButton(context)
                 val editText=EditText(context)
                 setUpRadioButton(radioButton )
+                editText.id=editTextID
+                radioButton.id="${editTextID}${i}".toInt()
                 setUpEditText(editText,2,Creator.Utils.totalQuestion)
                 multipleChoiceView.addView(radioButton)
                 multipleChoiceView.addView(editText)
@@ -184,6 +208,5 @@ class Creator(val context: Context)  {
         }
 
     }
-    class MultipleOption(val radioButton: RadioButton,val editText: EditText)
-
 }
+
