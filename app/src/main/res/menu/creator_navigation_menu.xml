@@ -3,6 +3,10 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     >
+    <item android:id="@+id/send"
+        android:icon="@drawable/ic_send"
+        app:showAsAction="always"
+        android:title="send" />
     <item android:id="@+id/add"
         android:title="add"
         android:icon="@drawable/ic_add"
@@ -29,6 +33,7 @@
     </item>
 </menu>
     </item>
+
 
 
 </menu>

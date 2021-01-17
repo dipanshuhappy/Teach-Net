@@ -1,5 +1,4 @@
 package com.bookies.teachnet
-
 import android.annotation.SuppressLint
 import android.content.Context
 import android.net.Uri
@@ -11,7 +10,10 @@ import android.view.View
 import android.view.inputmethod.EditorInfo
 import android.widget.*
 import androidx.core.content.ContextCompat
-
+interface  QuestionView{
+    fun setUpQuestionViews(){}
+    fun addViewsToParentView(){}
+}
 class Creator(val context: Context) {
     fun createMultipleChoice(options: Int = 4): MultipleChoice {
         val multipleChoice = MultipleChoice(context, options)
@@ -19,28 +21,24 @@ class Creator(val context: Context) {
         multipleChoice.addViewsToParentView()
         return multipleChoice
     }
-
     fun createTrueAndFalse(): TrueAndFalse {
         val trueAndFalse = TrueAndFalse(context)
         trueAndFalse.setUpQuestionViews()
         trueAndFalse.addViewsToParentView()
         return trueAndFalse;
     }
-
     fun createEssay(): Essay {
         val essay = Essay(context)
         essay.setUpQuestionViews()
         essay.addViewsToParentView()
         return essay;
     }
-
     fun createImageQuestion(image: Uri, type: String): ImageQuestion {
         val imageQuestion = ImageQuestion(context, image, type)
         imageQuestion.setUpQuestionViews()
         imageQuestion.addViewsToParentView()
         return imageQuestion;
     }
-
     companion object Utils : View.OnClickListener {
         var totalQuestion = 0;
         var layout: LinearLayout? = null;
@@ -51,7 +49,7 @@ class Creator(val context: Context) {
             "imageQuestionMultipleChoiceTypeQuestionId" to 4,
             "imageQuestionEssayTypeQuestionId" to 5,
             "questionEditTextId" to 1,
-            "trueRadioButton" to 7,
+            "trueRadioButtonId" to 7,
             "falseRadioButtonId" to 8,
             "essayAnswerId" to 6,
             "imageQuestionId" to 2,
@@ -154,6 +152,8 @@ class Creator(val context: Context) {
             multipleChoiceView: LinearLayout,
             Id: Int
         ) {
+            val groupRadioButton:RadioGroup= RadioGroup(context)
+            setUpButtonGroup(groupRadioButton)
             for (i in 1..options) {
                 val editTextID = "${Id}${i}".toInt()
                 val radioButton = RadioButton(context)
@@ -161,11 +161,12 @@ class Creator(val context: Context) {
                 setUpRadioButton(radioButton)
                 editText.id = editTextID
                 radioButton.id = "${editTextID}${i}".toInt()
-                setUpEditText(editText, 2, Creator.Utils.totalQuestion)
-                multipleChoiceView.addView(radioButton)
-                multipleChoiceView.addView(editText)
+                setUpEditText(editText, 2)
+                groupRadioButton.addView(radioButton)
+                groupRadioButton.addView(editText)
                 Log.d("IN THE OPTION LOOP", " ${radioButton} radio and ${editText}")
             }
+            multipleChoiceView.addView(groupRadioButton)
         }
 
         override fun onClick(v: View?) {
@@ -176,10 +177,11 @@ class Creator(val context: Context) {
         }
     }
 
-    class MultipleChoice(val context: Context, val numOfChoices: Int = 4) {
+    class MultipleChoice(val context: Context, val numOfChoices: Int = 4) :QuestionView{
         var multipleChoiceView: LinearLayout = LinearLayout(context)
         var questionEditText: EditText = EditText(context)
         var deleteButton: ImageButton = ImageButton(context)
+
         var questionEditTextID: Int = 0;
 
         init {
@@ -192,19 +194,19 @@ class Creator(val context: Context) {
             Log.d("id in multiple choice", "${multipleChoiceView.id} and ${questionEditText.id}")
         }
 
-        fun setUpQuestionViews() {
+        override fun setUpQuestionViews() {
             setUpLinearLayout(multipleChoiceView, LinearLayout.VERTICAL)
             setUpEditText(editText = questionEditText, lines = 3, type = "question")
             setUpDeleteButton(multipleChoiceView, deleteButton, context)
         }
 
-        fun addViewsToParentView() {
+        override fun addViewsToParentView() {
             multipleChoiceView.addView(questionEditText)
             createOption(context, numOfChoices, multipleChoiceView, questionEditTextID)
         }
     }
 
-    class TrueAndFalse(val context: Context) {
+    class TrueAndFalse(val context: Context) :QuestionView{
         val trueAndFalseView = LinearLayout(context)
         val questionEditText = EditText(context);
         val deleteButton = ImageButton(context)
@@ -223,7 +225,7 @@ class Creator(val context: Context) {
             falseRadioButton.id = "${questionEditTextID}${ID["falseRadioButtonId"]}".toInt()
         }
 
-        fun setUpQuestionViews() {
+        override fun setUpQuestionViews() {
             setUpEditText(editText = questionEditText, lines = 3, type = "question")
             setUpRadioButton(trueRadioButton, "True")
             setUpRadioButton(falseRadioButton, "False")
@@ -232,7 +234,7 @@ class Creator(val context: Context) {
             setUpDeleteButton(trueAndFalseView, deleteButton, context)
         }
 
-        fun addViewsToParentView() {
+        override fun addViewsToParentView() {
             trueAndFalseView.addView(questionEditText)
             trueAndFalseRadioGroup.addView(trueRadioButton)
             trueAndFalseRadioGroup.addView(falseRadioButton)
@@ -240,7 +242,7 @@ class Creator(val context: Context) {
         }
     }
 
-    class Essay(val context: Context) {
+    class Essay(val context: Context):QuestionView {
         val questionEditText = EditText(context)
         val answerEditText = EditText(context)
         val essayView = LinearLayout(context)
@@ -257,20 +259,20 @@ class Creator(val context: Context) {
             answerEditText.id = answerEditTextID
         }
 
-        fun setUpQuestionViews() {
+        override fun setUpQuestionViews() {
             setUpEditText(editText = questionEditText, lines = 3, type = "question")
             setUpEditText(answerEditText, 2, totalQuestion)
             setUpLinearLayout(essayView, LinearLayout.VERTICAL)
             setUpDeleteButton(essayView, deleteButton, context)
         }
 
-        fun addViewsToParentView() {
+        override fun addViewsToParentView() {
             essayView.addView(questionEditText)
             essayView.addView(answerEditText)
         }
     }
 
-    class ImageQuestion(val context: Context, val imageQuestion: Uri, val type: String) {
+    class ImageQuestion(val context: Context, val imageQuestion: Uri, val type: String):QuestionView {
         val imageQuestionView = LinearLayout(context);
         val sideNoteEditText = EditText(context);
         val imageView = ImageView(context);
@@ -279,7 +281,7 @@ class Creator(val context: Context) {
 
         init {
             totalQuestion += 1
-            val linearLayoutID = "${totalQuestion}${ID["essayQuestionTypeId"]}".toInt()
+            val linearLayoutID =if(type=="multipleChoice") "${totalQuestion}${ID["imageQuestionMultipleChoiceTypeQuestionId"]}".toInt() else "${totalQuestion}${ID["imageQuestionEssayTypeQuestionId"]}".toInt()
             questionImageID = "${linearLayoutID}${ID["imageQuestionId"]}".toInt()
             //set ID
             imageQuestionView.id = linearLayoutID
@@ -287,14 +289,14 @@ class Creator(val context: Context) {
             sideNoteEditText.id = "${linearLayoutID}${ID["SideNoteId"]}".toInt()
         }
 
-        fun setUpQuestionViews() {
+        override fun setUpQuestionViews() {
             setUpImageQuestion(imageView, imageQuestion)
             setUpEditText(editText = sideNoteEditText, lines = 3, type = "sideNote")
             setUpDeleteButton(imageQuestionView, deleteButton, context)
             setUpLinearLayout(imageQuestionView, LinearLayout.VERTICAL)
         }
 
-        fun addViewsToParentView() {
+        override fun addViewsToParentView() {
             imageQuestionView.addView(deleteButton)
             imageQuestionView.addView(imageView)
             imageQuestionView.addView(sideNoteEditText)
@@ -302,11 +304,12 @@ class Creator(val context: Context) {
                 createOption(context, 4, imageQuestionView, questionImageID)
             } else if (type == "essay") {
                 val answerEditText = EditText(context)
-                answerEditText.id = "${questionImageID}${ID["essayAnswerTypeId"]}".toInt()
+                answerEditText.id = "${questionImageID}${ID["essayAnswerId"]}".toInt()
                 setUpEditText(answerEditText, 2, Creator.Utils.totalQuestion)
                 imageQuestionView.addView(answerEditText)
             }
         }
     }
 }
+
 
